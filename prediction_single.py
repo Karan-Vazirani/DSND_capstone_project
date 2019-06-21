@@ -42,7 +42,8 @@ sc_output.fit(input_set[:,output_col])
 training_set = df_train.iloc[:, columns].values
 training_set_scaled = sc_input.transform(training_set)
 
-X_train, y_train = tensor.create_tensor(training_set_scaled, timestep, input_col, output_col, no_of_feature)
+X_train, y_train = tensor.create_tensor(training_set_scaled, timestep, input_col,\
+                                        output_col, no_of_feature)
 
 # creating testing set
 testing_set = df_test.iloc[:, columns].values
@@ -53,7 +54,8 @@ x2 = pd.DataFrame(testing_set)
 testing_set = np.array(pd.concat([x1, x2]))
 testing_set_scaled = sc_input.transform(testing_set)
 
-X_test, y_test = tensor.create_tensor(testing_set_scaled, timestep, input_col, output_col, no_of_feature)
+X_test, y_test = tensor.create_tensor(testing_set_scaled, timestep, input_col, \
+                                      output_col, no_of_feature)
 
 ###############################################################################
 
@@ -82,7 +84,8 @@ print('R2 Score : ', r2_score(train_actual, train_predict))
 print('MSE Score : ', mean_squared_error(train_actual, train_predict))
 
 plot.time_series_plot(train_actual, train_predict, 'red', 'blue', 'actual_close', \
-                 'predicted_close', 'days', 'price', 'Neural Network (single attribute - train data)')
+                 'predicted_close', 'days', 'price', \
+                 'Neural Network (single attribute - train data)')
 
 
 # prediction using test data
@@ -96,17 +99,18 @@ print('R2 Score : ', r2_score(test_actual, test_predict))
 print('MSE Score : ', mean_squared_error(test_actual, test_predict))
 
 plot.time_series_plot(test_actual, test_predict, 'red', 'blue', 'actual_close', \
-                 'predicted_close', 'days', 'price', 'Neural Network (single attribute - test data)')
+                 'predicted_close', 'days', 'price', \
+                 'Neural Network (single attribute - test data)')
 
 ###############################################################################
 
 # saving the results in excel format
-date = pd.DataFrame(df_test['Date'])
+date = pd.DataFrame(df_test['Date']).reset_index(drop=True)
 actual_price_df = pd.DataFrame(test_actual).round(3)
 predict_price_df = pd.DataFrame(test_predict).round(3)
 combined_df = pd.concat([date, actual_price_df, predict_price_df], axis = 1 )
 combined_df.columns = ['date','actual_close', 'predicted_close']
-combined_df.to_excel('./model/single_attribute/result.xlsx', index = False)
+combined_df.to_excel('./result/single_attribute/result.xlsx', index = False)
 
 # R2 Score :  0.7470900859501621 MSE Score :  28572.169402722284
 # R2 Score :  0.9951565494031501 MSE Score :  568.1676091507665

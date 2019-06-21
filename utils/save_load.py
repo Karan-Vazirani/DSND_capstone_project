@@ -1,7 +1,6 @@
 '''
 This script is for saving and loading the models
 '''
-import os
 from keras.models import model_from_json
 
 
